@@ -88,6 +88,18 @@ module.exports = function(app, passport) {
                 failureRedirect : '/'
             }));
 
+    // slack ---------------------------------
+
+        // send to slack to do the authentication
+        app.get('/auth/slack', passport.authenticate('slack'));
+        
+                // the callback after slack has authenticated the user
+                app.get('/auth/slack/callback',
+                    passport.authenticate('slack', {
+                        successRedirect : '/profile',
+                        failureRedirect : '/'
+                    }));
+
 // =============================================================================
 // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
 // =============================================================================
@@ -138,6 +150,18 @@ module.exports = function(app, passport) {
                 successRedirect : '/profile',
                 failureRedirect : '/'
             }));
+    
+    // slack ---------------------------------
+
+        // send to slack to do the authentication
+        app.get('/connect/slack', passport.authorize('slack'));
+        
+                // the callback after slack has authorized the user
+                app.get('/auth/slack/callback',
+                    passport.authorize('slack', {
+                        successRedirect : '/profile',
+                        failureRedirect : '/'
+                    }));
 
 // =============================================================================
 // UNLINK ACCOUNTS =============================================================
@@ -178,6 +202,15 @@ module.exports = function(app, passport) {
     app.get('/unlink/google', isLoggedIn, function(req, res) {
         var user          = req.user;
         user.google.token = undefined;
+        user.save(function(err) {
+            res.redirect('/profile');
+        });
+    });
+
+    // slack ---------------------------------
+    app.get('/unlink/slack', isLoggedIn, function(req, res) {
+        var user          = req.user;
+        user.slack.token = undefined;
         user.save(function(err) {
             res.redirect('/profile');
         });

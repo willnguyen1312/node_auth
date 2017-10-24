@@ -3,7 +3,7 @@
 <head>
     <title>Node Authentication</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />    
     <style>
         body         { padding-top:80px; word-wrap:break-word; }
     </style>
@@ -99,6 +99,27 @@
                     <a href="/unlink/google" class="btn btn-danger">Unlink</a>
                 <% } else { %>
                     <a href="/connect/google" class="btn btn-danger">Connect Google</a>
+                <% } %>
+
+            </div>
+        </div>
+
+        <!-- Slack INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3 class="text-warning"><span class="fa fa-slack"></span> Slack</h3>
+
+                <% if (user.slack.token) { %>
+                    <p>
+                        <strong>id</strong>: <%= user.slack.id %><br>
+                        <strong>token</strong>: <%= user.slack.token %><br>
+                        <strong>email</strong>: <%= user.slack.email %><br>
+                        <strong>name</strong>: <%= user.slack.name %>
+                    </p>
+
+                    <a href="/unlink/slack" class="btn btn-warning">Unlink</a>
+                <% } else { %>
+                    <a href="/connect/slack" class="btn btn-warning">Connect Slack</a>
                 <% } %>
 
             </div>
